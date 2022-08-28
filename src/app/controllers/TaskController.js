@@ -2,6 +2,17 @@ import * as Yup from "yup";
 import Task from "../models/Task";
 
 class TaskController {
+  async index(req, res) {
+    const tasks = await Task.findAll({
+      where: {
+        user_id: req.userId,
+        check: false,
+      },
+    });
+
+    return res.json(tasks);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       task: Yup.string().required(),
